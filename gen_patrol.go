@@ -227,7 +227,7 @@ func main() {
 	})
 	pm := loadFinished()
 	verifyPhoneExists(fs, pm)
-	done := make(map[string]bool)  // ID -> bool (true if done)
+	done := make(map[string]bool) // ID -> bool (true if done)
 
 	// choose morning patrol in Oct
 	infs := filterDone(fs, pm, done)
@@ -247,13 +247,12 @@ func main() {
 		isCircle[circle.ID] = true
 		updateDone(done, circle.ID)
 		// no circle
-		buddy := infs[len(infs) * 2 / 3 + i]
+		buddy := infs[len(infs)*2/3+i]
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}
 	writeCSVFile(toCSV(dates, outfs, isCircle), "morning_oct.csv")
 	fmt.Println("done morning oct")
-
 
 	// choose afternoon patrol
 	infs = filterDone(fs, pm, done)
@@ -265,7 +264,7 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(len(infs))
-	bSize := len(infs)/3
+	bSize := len(infs) / 3
 	for i := 0; i < bSize; i++ {
 		dates = append(dates, date)
 		date = nextWeek(date)
@@ -275,11 +274,11 @@ func main() {
 		isCircle[circle.ID] = true
 		updateDone(done, circle.ID)
 		// no circle
-		buddy := infs[len(infs) * 2 / 3 - i - 1]
+		buddy := infs[len(infs)*2/3-i-1]
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 		// no circle 2
-		buddy = infs[len(infs) - i - 1]
+		buddy = infs[len(infs)-i-1]
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}

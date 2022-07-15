@@ -69,7 +69,7 @@ func main() {
 		return nki < nkj
 	})
 	fmt.Println(fs)
-	var rs [][]string  // for whom has never had role before.
+	var rs [][]string // for whom has never had role before.
 	ridx := 1
 	var hrs [][]string // for whom has had a role before.
 	hidx := 1

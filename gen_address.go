@@ -65,7 +65,7 @@ func main() {
 		return fs[i].Kids[0].FirstName < fs[j].Kids[0].FirstName
 	})
 	fmt.Println(fs)
-	var rs [][]string  // output records
+	var rs [][]string // output records
 	for i, v := range fs {
 		rs = append(rs, []string{
 			// seq, familiy, first kids first, grade, class

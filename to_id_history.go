@@ -10,10 +10,10 @@ import (
 
 // History represents each ID's history.
 type History struct {
-	ID	string `json:"ID"`
-	Year	string `json:"year"`
-	Role	string `json:"role"`
-	Phone	string `json:"phone"`  // used only for data verification
+	ID    string `json:"ID"`
+	Year  string `json:"year"`
+	Role  string `json:"role"`
+	Phone string `json:"phone"` // used only for data verification
 }
 
 func main() {

@@ -4,10 +4,10 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
-	"io/ioutil"
 )
 
 // History represents each ID's history.
@@ -27,10 +27,10 @@ type Kid struct {
 
 // Family represents each family information.
 type Family struct {
-	ID         string `json:"ID"`
-	FamilyName string `json:"family name"`
-	Kids       []Kid  `json:"kids"`
-	Phone      string `json:"phone"`
+	ID         string   `json:"ID"`
+	FamilyName string   `json:"family name"`
+	Kids       []Kid    `json:"kids"`
+	Phone      string   `json:"phone"`
 	History    *History `json:"history"`
 }
 
@@ -43,15 +43,15 @@ func atoi(s string) int {
 }
 
 func loadHistory() map[string]History {
-        j, err := ioutil.ReadFile("history.json")
-        if err != nil {
-                log.Fatal(err)
-        }
+	j, err := ioutil.ReadFile("history.json")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-        var hs []History
-        if err := json.Unmarshal(j, &hs); err != nil {
-                log.Fatal(err)
-        }
+	var hs []History
+	if err := json.Unmarshal(j, &hs); err != nil {
+		log.Fatal(err)
+	}
 	m := make(map[string]History)
 	for _, v := range hs {
 		m[v.ID] = v
