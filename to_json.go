@@ -10,30 +10,6 @@ import (
 	"strconv"
 )
 
-// History represents each ID's history.
-type History struct {
-	ID    string `json:"ID"`
-	Year  string `json:"year"`
-	Role  string `json:"role"`
-	Phone string `json:"phone"` // used only for data verification
-}
-
-// Kid represents each kid information.
-type Kid struct {
-	FirstName string `json:"first name"`
-	Grade     int    `json:"grade"`
-	Class     int    `json:"class"`
-}
-
-// Family represents each family information.
-type Family struct {
-	ID         string   `json:"ID"`
-	FamilyName string   `json:"family name"`
-	Kids       []Kid    `json:"kids"`
-	Phone      string   `json:"phone"`
-	History    *History `json:"history"`
-}
-
 func atoi(s string) int {
 	r, e := strconv.Atoi(s)
 	if e != nil {
