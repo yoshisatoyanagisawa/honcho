@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -16,23 +15,6 @@ func atoi(s string) int {
 		log.Fatal(e)
 	}
 	return r
-}
-
-func loadHistory() map[string]History {
-	j, err := ioutil.ReadFile("history.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var hs []History
-	if err := json.Unmarshal(j, &hs); err != nil {
-		log.Fatal(err)
-	}
-	m := make(map[string]History)
-	for _, v := range hs {
-		m[v.ID] = v
-	}
-	return m
 }
 
 func main() {
@@ -102,12 +84,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fout, err := os.Create("out.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fout.Write(out)
-	err = fout.Close()
+	err = os.WriteFile("out.json", out, os.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 	}
