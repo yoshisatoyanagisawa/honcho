@@ -1,11 +1,8 @@
 package main
 
 import (
-	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 )
 
@@ -18,19 +15,15 @@ func atoi(s string) int {
 }
 
 func main() {
-	file, err := os.Open("B2022.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	r := csv.NewReader(file)
-	rows, err := r.ReadAll()
+	rows, err := loadCSV("B2022.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	hm := loadHistory()
+	hm, err := loadHistory()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fs := make(map[string]Family)
 	for _, v := range rows[1:] {
@@ -80,11 +73,7 @@ func main() {
 		fsDump = append(fsDump, v)
 	}
 	fmt.Println(fsDump)
-	out, err := json.Marshal(&fsDump)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = os.WriteFile("out.json", out, os.ModePerm)
+	err = writeJSONFile(fsDump, "out.json")
 	if err != nil {
 		log.Fatal(err)
 	}

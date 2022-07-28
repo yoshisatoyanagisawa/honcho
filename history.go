@@ -1,24 +1,11 @@
 package main
 
-import (
-	"encoding/csv"
-	"log"
-	"os"
-)
-
 // loadHistory loads the history data from CSV and returns
 // map from ID to History.
-func loadHistory() map[string]History {
-	file, err := os.Open("r3data.csv")
+func loadHistory() (map[string]History, error) {
+	rows, err := loadCSV("r3data.csv")
 	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	r := csv.NewReader(file)
-	rows, err := r.ReadAll()
-	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	m := make(map[string]History)
@@ -31,12 +18,12 @@ func loadHistory() map[string]History {
 			continue
 		}
 		h := History{
-			ID: v[1],
-			Year: v[9],
-			Role: v[10],
+			ID:    v[1],
+			Year:  v[9],
+			Role:  v[10],
 			Phone: v[8],
 		}
 		m[h.ID] = h
 	}
-	return m
+	return m, nil
 }

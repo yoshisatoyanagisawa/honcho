@@ -5,23 +5,14 @@
 package main
 
 import (
-	"encoding/csv"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
 	"sort"
 )
 
 func main() {
-	j, err := ioutil.ReadFile("out.json")
+	fs, err := loadJSON("out.json")
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	var fs []Family
-	if err := json.Unmarshal(j, &fs); err != nil {
 		log.Fatal(err)
 	}
 	// Sort kids in each family with kids' grade and class.
@@ -61,14 +52,7 @@ func main() {
 			fmt.Sprintf("%d", v.Kids[0].Class),
 		})
 	}
-
-	f, err := os.Create("address.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	w := csv.NewWriter(f)
-	w.WriteAll(rs)
-	err = f.Close()
+	err = writeCSVFile(rs, "address.csv")
 	if err != nil {
 		log.Fatal(err)
 	}

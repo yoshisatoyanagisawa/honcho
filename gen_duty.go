@@ -1,26 +1,18 @@
 package main
 
 import (
-	"encoding/csv"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
 	"sort"
 	"strings"
 )
 
 func main() {
-	j, err := ioutil.ReadFile("out.json")
+	fs, err := loadJSON("out.json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var fs []Family
-	if err := json.Unmarshal(j, &fs); err != nil {
-		log.Fatal(err)
-	}
 	for _, v := range fs {
 		sort.SliceStable(v.Kids, func(i, j int) bool {
 			return v.Kids[i].Grade < v.Kids[j].Grade
@@ -83,24 +75,12 @@ func main() {
 		}
 	}
 
-	f, err := os.Create("duty.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	w := csv.NewWriter(f)
-	w.WriteAll(rs)
-	err = f.Close()
+	err = writeCSVFile(rs, "duty.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	f, err = os.Create("noduty.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	w = csv.NewWriter(f)
-	w.WriteAll(hrs)
-	err = f.Close()
+	err = writeCSVFile(hrs, "noduty.csv")
 	if err != nil {
 		log.Fatal(err)
 	}

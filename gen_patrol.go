@@ -1,12 +1,8 @@
 package main
 
 import (
-	"encoding/csv"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
 	"sort"
 	"strings"
 	"time"
@@ -15,14 +11,7 @@ import (
 const morningPatrolDays = 6
 
 func loadFinished() map[string]bool {
-	file, err := os.Open("2022finished.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	r := csv.NewReader(file)
-	rows, err := r.ReadAll()
+	rows, err := loadCSV("2022finished.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -109,16 +98,6 @@ func updateDone(m map[string]bool, s string) {
 	m[s] = true
 }
 
-func writeCSVFile(rs [][]string, filename string) error {
-	f, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	w := csv.NewWriter(f)
-	w.WriteAll(rs)
-	return f.Close()
-}
-
 func nextDate(t time.Time) time.Time {
 	t = t.AddDate(0, 0, 1)
 	for t.Weekday() == time.Saturday || t.Weekday() == time.Sunday {
@@ -169,15 +148,11 @@ func verifyPhoneExists(fs []Family, phone map[string]bool) {
 }
 
 func main() {
-	j, err := ioutil.ReadFile("out.json")
+	fs, err := loadJSON("out.json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var fs []Family
-	if err := json.Unmarshal(j, &fs); err != nil {
-		log.Fatal(err)
-	}
 	for _, v := range fs {
 		sort.SliceStable(v.Kids, func(i, j int) bool {
 			return v.Kids[i].Grade > v.Kids[j].Grade
