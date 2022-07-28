@@ -8,14 +8,6 @@ import (
 	"os"
 )
 
-// History represents each ID's history.
-type History struct {
-	ID    string `json:"ID"`
-	Year  string `json:"year"`
-	Role  string `json:"role"`
-	Phone string `json:"phone"` // used only for data verification
-}
-
 func main() {
 	file, err := os.Open("r3data.csv")
 	if err != nil {
