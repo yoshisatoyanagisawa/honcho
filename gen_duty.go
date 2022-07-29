@@ -13,11 +13,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, v := range fs {
-		sort.SliceStable(v.Kids, func(i, j int) bool {
-			return v.Kids[i].Grade < v.Kids[j].Grade
-		})
-	}
+	sortKids(fs)
 	sort.SliceStable(fs, func(i, j int) bool {
 		nki := len(fs[i].Kids)
 		nkj := len(fs[j].Kids)

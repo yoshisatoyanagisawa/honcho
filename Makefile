@@ -1,5 +1,5 @@
 TARGET = to_json gen_address gen_duty gen_patrol
-LIBS = ioutil.go data_structure.go
+LIBS = ioutil.go datautil.go data_structure.go
 
 all: ${TARGET}
 
