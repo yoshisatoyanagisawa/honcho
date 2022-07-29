@@ -38,33 +38,33 @@ func main() {
 			h = &vv
 		} else if v[9] != "" {
 			h = &History{
-				ID,
-				v[9],
-				v[10],
-				v[8],
+				ID:    ID,
+				Year:  v[9],
+				Role:  v[10],
+				Phone: v[8],
 			}
 		}
 
 		if val, ok := fs[ID]; ok {
 			val.Kids = append(val.Kids, Kid{
-				v[5],
-				atoi(v[2]),
-				atoi(v[3]),
+				FirstName: v[5],
+				Grade:     atoi(v[2]),
+				Class:     atoi(v[3]),
 			})
 			fs[ID] = val
 		} else {
 			fs[ID] = Family{
-				ID,
-				v[4],
-				[]Kid{
+				ID:         ID,
+				FamilyName: v[4],
+				Kids: []Kid{
 					{
-						v[5],
-						atoi(v[2]),
-						atoi(v[3]),
+						FirstName: v[5],
+						Grade:     atoi(v[2]),
+						Class:     atoi(v[3]),
 					},
 				},
-				v[8],
-				h,
+				Phone:   v[8],
+				History: h,
 			}
 		}
 	}
