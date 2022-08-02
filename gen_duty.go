@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"sort"
 	"strings"
 )
 
@@ -13,25 +12,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	sortKids(fs)
-	sort.SliceStable(fs, func(i, j int) bool {
-		nki := len(fs[i].Kids)
-		nkj := len(fs[j].Kids)
-		n := nki
-		if n > nkj {
-			n = nkj
-		}
-		for k := 0; k < n; k++ {
-			if fs[i].Kids[k].Grade == fs[j].Kids[k].Grade {
-				continue
-			}
-			return fs[i].Kids[k].Grade > fs[j].Kids[k].Grade
-		}
-		if nki == nkj {
-			return fs[i].FamilyName > fs[j].FamilyName
-		}
-		return nki < nkj
-	})
+	sortFamilyWithGrade(fs, true)
 	fmt.Println(fs)
 	var rs [][]string // for whom has never had role before.
 	ridx := 1

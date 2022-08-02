@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"sort"
 	"strings"
 	"time"
 )
@@ -153,25 +152,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	sortKidsRev(fs)
-	sort.SliceStable(fs, func(i, j int) bool {
-		nki := len(fs[i].Kids)
-		nkj := len(fs[j].Kids)
-		n := nki
-		if n > nkj {
-			n = nkj
-		}
-		for k := 0; k < n; k++ {
-			if fs[i].Kids[k].Grade == fs[j].Kids[k].Grade {
-				continue
-			}
-			return fs[i].Kids[k].Grade > fs[j].Kids[k].Grade
-		}
-		if nki == nkj {
-			return fs[i].FamilyName > fs[j].FamilyName
-		}
-		return nki > nkj
-	})
+	sortFamilyWithGrade(fs, false)
 	pm := loadFinished()
 	verifyPhoneExists(fs, pm)
 	done := make(map[string]bool) // ID -> bool (true if done)

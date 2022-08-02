@@ -27,3 +27,29 @@ func sortKidsRev(fs []Family) {
 		})
 	}
 }
+
+func sortFamilyWithGrade(fs []Family, smallKidsFirst bool) {
+	if smallKidsFirst {
+		sortKids(fs)
+	} else {
+		sortKidsRev(fs)
+	}
+	sort.SliceStable(fs, func(i, j int) bool {
+		nki := len(fs[i].Kids)
+		nkj := len(fs[j].Kids)
+		n := nki
+		if n > nkj {
+			n = nkj
+		}
+		for k := 0; k < n; k++ {
+			if fs[i].Kids[k].Grade == fs[j].Kids[k].Grade {
+				continue
+			}
+			return fs[i].Kids[k].Grade > fs[j].Kids[k].Grade
+		}
+		if nki == nkj {
+			return fs[i].FamilyName > fs[j].FamilyName
+		}
+		return nki < nkj
+	})
+}
