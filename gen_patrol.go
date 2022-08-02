@@ -153,7 +153,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	sortKids(fs)
+	sortKidsRev(fs)
 	sort.SliceStable(fs, func(i, j int) bool {
 		nki := len(fs[i].Kids)
 		nkj := len(fs[j].Kids)
