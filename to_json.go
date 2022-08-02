@@ -14,7 +14,6 @@ func atoi(s string) int {
 	return r
 }
 
-
 // loadHistory loads the history data from CSV and returns
 // map from ID to History.
 func loadHistory() (map[string]History, error) {
