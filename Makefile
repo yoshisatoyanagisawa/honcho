@@ -3,7 +3,7 @@ LIBS = ioutil.go datautil.go data_structure.go
 
 all: ${TARGET}
 
-to_json: to_json.go history.go ${LIBS}
+to_json: to_json.go ${LIBS}
 	go build -o $@ $?
 
 gen_address: gen_address.go ${LIBS}
