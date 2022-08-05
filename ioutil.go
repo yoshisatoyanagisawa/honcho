@@ -9,6 +9,8 @@ import (
 	"os"
 )
 
+// loadJSON loads a list of Family structures from `filename`
+// formatted with JSON.
 func loadJSON(filename string) ([]Family, error) {
 	j, err := os.ReadFile("out.json")
 	if err != nil {
@@ -22,7 +24,9 @@ func loadJSON(filename string) ([]Family, error) {
 	return fs, nil
 }
 
-func writeJSONFile(fs []Family, filename string) error {
+// storeJSON stores a list of Family structures to `filename`
+// with JSON.
+func storeJSON(fs []Family, filename string) error {
 	out, err := json.Marshal(&fs)
 	if err != nil {
 		return err
@@ -30,6 +34,7 @@ func writeJSONFile(fs []Family, filename string) error {
 	return os.WriteFile(filename, out, os.ModePerm)
 }
 
+// loadCSV loads the CSV file to a list of lists of strings.
 func loadCSV(filename string) ([][]string, error) {
 	f, err := os.Open(filename)
 	if err != nil {
@@ -41,7 +46,8 @@ func loadCSV(filename string) ([][]string, error) {
 	return r.ReadAll()
 }
 
-func writeCSVFile(records [][]string, filename string) error {
+// storeCSV stores a list of lists of strings to the CSV file.
+func storeCSV(records [][]string, filename string) error {
 	f, err := os.Create(filename)
 	if err != nil {
 		return err

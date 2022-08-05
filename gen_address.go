@@ -44,7 +44,7 @@ func main() {
 			fmt.Sprintf("%d", v.Kids[0].Class),
 		})
 	}
-	err = writeCSVFile(rs, "address.csv")
+	err = storeCSV(rs, "address.csv")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -101,7 +101,7 @@ func main() {
 		fsDump = append(fsDump, v)
 	}
 	fmt.Println(fsDump)
-	err = writeJSONFile(fsDump, "out.json")
+	err = storeJSON(fsDump, "out.json")
 	if err != nil {
 		log.Fatal(err)
 	}

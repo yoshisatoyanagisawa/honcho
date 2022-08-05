@@ -179,7 +179,7 @@ func main() {
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}
-	writeCSVFile(toCSV(dates, outfs, isCircle), "morning_oct.csv")
+	storeCSV(toCSV(dates, outfs, isCircle), "morning_oct.csv")
 	fmt.Println("done morning oct")
 
 	// choose afternoon patrol
@@ -213,6 +213,6 @@ func main() {
 	infs = filterDone(fs, pm, done)
 	fmt.Println(infs)
 	outfs = append(outfs, infs...)
-	writeCSVFile(toCSV(dates, outfs, isCircle), "afternoon.csv")
+	storeCSV(toCSV(dates, outfs, isCircle), "afternoon.csv")
 	fmt.Println("done afternoon")
 }

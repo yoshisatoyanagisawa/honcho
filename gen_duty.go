@@ -52,12 +52,12 @@ func main() {
 		}
 	}
 
-	err = writeCSVFile(rs, "duty.csv")
+	err = storeCSV(rs, "duty.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = writeCSVFile(hrs, "noduty.csv")
+	err = storeCSV(hrs, "noduty.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
