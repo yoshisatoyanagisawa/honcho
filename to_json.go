@@ -42,6 +42,23 @@ func loadHistory() (map[string]History, error) {
 	return m, nil
 }
 
+func mergeHistory(h1, h2 *History) *History {
+	if h1 == nil {
+		return h2
+	}
+	if h1.ID != h2.ID || h1.Phone != h2.Phone {
+		log.Fatalf("ID (%s, %s) or Phone (%s, %s)are different ",
+		h1.ID, h2.ID, h1.Phone, h2.Phone)
+	}
+	h := &History{
+		ID:    h1.ID,
+		Year:  fmt.Sprintf("%s,%s", h1.Year, h2.Year),
+		Role:  fmt.Sprintf("%s,%s", h1.Role, h2.Role),
+		Phone: h1.Phone,
+	}
+	return h
+}
+
 func main() {
 	rows, err := loadCSV("B2022.csv")
 	if err != nil {
@@ -64,18 +81,21 @@ func main() {
 		var h *History
 		if vv, ok := hm[ID]; ok {
 			h = &vv
-		} else if v[9] != "" {
-			h = &History{
-				ID:    ID,
-				Year:  v[9],
-				Role:  v[10],
-				Phone: v[8],
-			}
+		}
+		if v[9] != "" {
+			h = mergeHistory(h,
+				&History{
+					ID:    ID,
+					Year:  v[9],
+					Role:  v[10],
+					Phone: v[8],
+				})
 		}
 
 		if val, ok := fs[ID]; ok {
 			val.Kids = append(val.Kids, Kid{
 				FirstName: v[5],
+				Furigana:  v[6],
 				Grade:     atoi(v[2]),
 				Class:     atoi(v[3]),
 			})
@@ -87,11 +107,13 @@ func main() {
 				Kids: []Kid{
 					{
 						FirstName: v[5],
+						Furigana:  v[6],
 						Grade:     atoi(v[2]),
 						Class:     atoi(v[3]),
 					},
 				},
 				Phone:   v[8],
+				Region:  v[7],
 				History: h,
 			}
 		}

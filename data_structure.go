@@ -11,6 +11,7 @@ type History struct {
 // Kid represents each kid information.
 type Kid struct {
 	FirstName string `json:"first name"`
+	Furigana  string `json:"furigana"`
 	Grade     int    `json:"grade"`
 	Class     int    `json:"class"`
 }
@@ -21,5 +22,6 @@ type Family struct {
 	FamilyName string   `json:"family name"`
 	Kids       []Kid    `json:"kids"`
 	Phone      string   `json:"phone"`
+	Region     string   `json:"region"`
 	History    *History `json:"history"`
 }
