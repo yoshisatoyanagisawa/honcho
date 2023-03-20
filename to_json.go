@@ -62,9 +62,9 @@ func mergeHistory(h1, h2 *History) *History {
 
 func main() {
 	var (
-		roster = flag.String("roster", "input.csv", "the latest roster")
+		roster  = flag.String("roster", "input.csv", "the latest roster")
 		history = flag.String("history", "history.csv", "history file")
-		output = flag.String("output", "output.json", "output file")
+		output  = flag.String("output", "output.json", "output file")
 	)
 	flag.Parse()
 	rows, err := loadCSV(*roster)

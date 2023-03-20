@@ -13,7 +13,7 @@ import (
 
 func main() {
 	var (
-		input = flag.String("input", "input.json", "input file in JSON")
+		input  = flag.String("input", "input.json", "input file in JSON")
 		output = flag.String("output", "output.csv", "output file in CSV")
 	)
 	flag.Parse()

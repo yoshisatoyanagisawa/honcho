@@ -149,11 +149,11 @@ func verifyPhoneExists(fs []Family, phone map[string]bool) {
 
 func main() {
 	var (
-		input = flag.String("input", "input.json", "input file in JSON")
-		finished = flag.String("finished", "finished.csv", "A file that has poeple who has already finished the role")
-		morning_oct = flag.String("morning", "morning.csv", "A file that has people for a morning patrol role in Oct")
-		afternoon = flag.String("afternoon", "afternoon.csv", "A file that has people for an afternoon patrol role")
-		start_morning = flag.String("start-morning", "2022-10-03", "Start date of the morning patrol")
+		input           = flag.String("input", "input.json", "input file in JSON")
+		finished        = flag.String("finished", "finished.csv", "A file that has poeple who has already finished the role")
+		morning_oct     = flag.String("morning", "morning.csv", "A file that has people for a morning patrol role in Oct")
+		afternoon       = flag.String("afternoon", "afternoon.csv", "A file that has people for an afternoon patrol role")
+		start_morning   = flag.String("start-morning", "2022-10-03", "Start date of the morning patrol")
 		start_afternoon = flag.String("start-afternoon", "2022-08-29", "Start date of the afternoon patrol")
 	)
 	flag.Parse()

@@ -9,9 +9,9 @@ import (
 
 func main() {
 	var (
-		input = flag.String("input", "input.json", "input file in JSON")
+		input      = flag.String("input", "input.json", "input file in JSON")
 		candidates = flag.String("candidates", "candidates.csv", "A CSV file output that have candidates")
-		done = flag.String("done", "done.csv", "A CSV file output that have people who have already experienced the roles")
+		done       = flag.String("done", "done.csv", "A CSV file output that have people who have already experienced the roles")
 	)
 	flag.Parse()
 	fs, err := loadJSON(*input)
