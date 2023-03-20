@@ -1,13 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"strings"
 )
 
 func main() {
-	fs, err := loadJSON("out.json")
+	var (
+		input = flag.String("input", "input.json", "input file in JSON")
+		candidates = flag.String("candidates", "candidates.csv", "A CSV file output that have candidates")
+		done = flag.String("done", "done.csv", "A CSV file output that have people who have already experienced the roles")
+	)
+	flag.Parse()
+	fs, err := loadJSON(*input)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,12 +59,12 @@ func main() {
 		}
 	}
 
-	err = storeCSV(rs, "duty.csv")
+	err = storeCSV(rs, *candidates)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = storeCSV(hrs, "noduty.csv")
+	err = storeCSV(hrs, *done)
 	if err != nil {
 		log.Fatal(err)
 	}
