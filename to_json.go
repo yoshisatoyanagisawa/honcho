@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"strconv"
@@ -16,8 +17,8 @@ func atoi(s string) int {
 
 // loadHistory loads the history data from CSV and returns
 // map from ID to History.
-func loadHistory() (map[string]History, error) {
-	rows, err := loadCSV("r3data.csv")
+func loadHistory(filename string) (map[string]History, error) {
+	rows, err := loadCSV(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -60,12 +61,18 @@ func mergeHistory(h1, h2 *History) *History {
 }
 
 func main() {
-	rows, err := loadCSV("B2022.csv")
+	var (
+		roster = flag.String("roster", "input.csv", "the latest roster")
+		history = flag.String("history", "history.csv", "history file")
+		output = flag.String("output", "output.json", "output file")
+	)
+	flag.Parse()
+	rows, err := loadCSV(*roster)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	hm, err := loadHistory()
+	hm, err := loadHistory(*history)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -123,7 +130,7 @@ func main() {
 		fsDump = append(fsDump, v)
 	}
 	fmt.Println(fsDump)
-	err = storeJSON(fsDump, "out.json")
+	err = storeJSON(fsDump, *output)
 	if err != nil {
 		log.Fatal(err)
 	}
