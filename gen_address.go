@@ -5,13 +5,19 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"sort"
 )
 
 func main() {
-	fs, err := loadJSON("out.json")
+	var (
+		input = flag.String("input", "input.json", "input file in JSON")
+		output = flag.String("output", "output.csv", "output file in CSV")
+	)
+	flag.Parse()
+	fs, err := loadJSON(*input)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +50,7 @@ func main() {
 			fmt.Sprintf("%d", v.Kids[0].Class),
 		})
 	}
-	err = storeCSV(rs, "address.csv")
+	err = storeCSV(rs, *output)
 	if err != nil {
 		log.Fatal(err)
 	}

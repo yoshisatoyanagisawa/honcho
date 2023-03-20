@@ -3,8 +3,10 @@
 DIRNAME=$(cd $(dirname $0); pwd)
 ROSTER="B2022.csv"
 HISTORY="r3data.csv"
-OUTPUT="out.json"
+DATAFILE="out.json"
+ADDRESS="address.csv"
 
 (cd $DIRNAME; make)
 
-"$DIRNAME/to_json" --roster="$ROSTER" --history="$HISTORY" --output="$OUTPUT"
+"$DIRNAME/to_json" --roster="$ROSTER" --history="$HISTORY" --output="$DATAFILE"
+"$DIRNAME/gen_address" --input="$DATAFILE" --output="$ADDRESS"
