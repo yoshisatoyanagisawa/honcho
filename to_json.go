@@ -48,7 +48,7 @@ func mergeHistory(h1, h2 *History) *History {
 	}
 	if h1.ID != h2.ID || h1.Phone != h2.Phone {
 		log.Fatalf("ID (%s, %s) or Phone (%s, %s)are different ",
-		h1.ID, h2.ID, h1.Phone, h2.Phone)
+			h1.ID, h2.ID, h1.Phone, h2.Phone)
 	}
 	h := &History{
 		ID:    h1.ID,

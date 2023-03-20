@@ -21,7 +21,7 @@ func main() {
 	// Smaller grade/class should go first.
 	// Using a family name as tie breaker.
 	sort.SliceStable(fs, func(i, j int) bool {
-		return fs[i].ID < fs[j].ID;
+		return fs[i].ID < fs[j].ID
 	})
 	fmt.Println(fs)
 	var rs [][]string // output records
