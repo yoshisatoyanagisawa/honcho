@@ -5,13 +5,19 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"sort"
 )
 
 func main() {
-	fs, err := loadJSON("out.json")
+	var (
+		input = flag.String("input", "input.json", "input file in JSON")
+		output = flag.String("output", "output.csv", "output roster fiel in CSV")
+	)
+	flag.Parse()
+	fs, err := loadJSON(*input)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +54,7 @@ func main() {
 			})
 		}
 	}
-	err = storeCSV(rs, "roaster.csv")
+	err = storeCSV(rs, *output)
 	if err != nil {
 		log.Fatal(err)
 	}
