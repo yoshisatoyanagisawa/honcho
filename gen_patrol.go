@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"strings"
@@ -9,8 +10,8 @@ import (
 
 const morningPatrolDays = 6
 
-func loadFinished() map[string]bool {
-	rows, err := loadCSV("2022finished.csv")
+func loadFinished(finished string) map[string]bool {
+	rows, err := loadCSV(finished)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -147,13 +148,23 @@ func verifyPhoneExists(fs []Family, phone map[string]bool) {
 }
 
 func main() {
-	fs, err := loadJSON("out.json")
+	var (
+		input = flag.String("input", "input.json", "input file in JSON")
+		finished = flag.String("finished", "finished.csv", "A file that has poeple who has already finished the role")
+		morning_oct = flag.String("morning", "morning.csv", "A file that has people for a morning patrol role in Oct")
+		afternoon = flag.String("afternoon", "afternoon.csv", "A file that has people for an afternoon patrol role")
+		start_morning = flag.String("start-morning", "2022-10-03", "Start date of the morning patrol")
+		start_afternoon = flag.String("start-afternoon", "2022-08-29", "Start date of the afternoon patrol")
+	)
+	flag.Parse()
+	fs, err := loadJSON(*input)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	sortFamilyWithGrade(fs, false)
-	pm := loadFinished()
+	pm := loadFinished(*finished)
+	fmt.Println("#finished:", len(pm))
 	verifyPhoneExists(fs, pm)
 	done := make(map[string]bool) // ID -> bool (true if done)
 
@@ -162,7 +173,7 @@ func main() {
 	outfs := []Family{}
 	isCircle := make(map[string]bool)
 	dates := []time.Time{}
-	date, err := time.Parse("2006-01-02", "2022-10-03")
+	date, err := time.Parse("2006-01-02", *start_morning)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -179,7 +190,7 @@ func main() {
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}
-	storeCSV(toCSV(dates, outfs, isCircle), "morning_oct.csv")
+	storeCSV(toCSV(dates, outfs, isCircle), *morning_oct)
 	fmt.Println("done morning oct")
 
 	// choose afternoon patrol
@@ -187,7 +198,7 @@ func main() {
 	outfs = []Family{}
 	isCircle = make(map[string]bool)
 	dates = []time.Time{}
-	date, err = time.Parse("2006-01-02", "2022-08-29")
+	date, err = time.Parse("2006-01-02", *start_afternoon)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -213,6 +224,6 @@ func main() {
 	infs = filterDone(fs, pm, done)
 	fmt.Println(infs)
 	outfs = append(outfs, infs...)
-	storeCSV(toCSV(dates, outfs, isCircle), "afternoon.csv")
+	storeCSV(toCSV(dates, outfs, isCircle), *afternoon)
 	fmt.Println("done afternoon")
 }

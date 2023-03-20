@@ -12,7 +12,7 @@ import (
 // loadJSON loads a list of Family structures from `filename`
 // formatted with JSON.
 func loadJSON(filename string) ([]Family, error) {
-	j, err := os.ReadFile("out.json")
+	j, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
