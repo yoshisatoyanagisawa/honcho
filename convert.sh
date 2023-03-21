@@ -1,13 +1,18 @@
 #!/bin/sh
 
 DIRNAME=$(cd $(dirname $0); pwd)
+# input files.
 ROSTER="B2022.csv"
 HISTORY="r3data.csv"
+FINISHED="2022finished.csv"
+
+# intermediate file.
 DATAFILE="out.json"
+
+# output files.
 ADDRESS="address.csv"
 CANDIDATES="duty.csv"
 DONE="noduty.csv"
-FINISHED="2022finished.csv"
 MORNING="morning_oct.csv"
 AFTERNOON="afternoon.csv"
 ROSTER="roster.csv"
