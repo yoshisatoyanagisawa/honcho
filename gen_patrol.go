@@ -41,7 +41,7 @@ func isOnDuty(h *History, year string) bool {
 	return false
 }
 
-func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool) [][]string {
+func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool, year string) [][]string {
 	var rs [][]string
 	var circleIdx []int
 	var roleIdx []int
@@ -61,13 +61,13 @@ func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool) [][]string 
 			dateIdx++
 			circle = "〇"
 			circleIdx = append(circleIdx, i)
-			if isOnDuty(v.History, "R4") {
+			if isOnDuty(v.History, year) {
 				roleIdx = append(roleIdx, i)
 			}
 		}
 		role := ""
-		if isOnDuty(v.History, "R4") {
-			role = "R4"
+		if isOnDuty(v.History, year) {
+			role = year
 		}
 		rs = append(rs, []string{
 			// date, circle, name, phone, grade
@@ -140,6 +140,7 @@ func main() {
 		afternoon       = flag.String("afternoon", "afternoon.csv", "A file that has people for an afternoon patrol role")
 		start_morning   = flag.String("start-morning", "2022-10-03", "Start date of the morning patrol")
 		start_afternoon = flag.String("start-afternoon", "2022-08-29", "Start date of the afternoon patrol")
+		year = flag.String("year", "R4", "A year name in the roster' format. e.g. R4")
 	)
 	flag.Parse()
 	fs, err := loadJSON(*input)
@@ -172,7 +173,7 @@ func main() {
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}
-	storeCSV(toCSV(dates, outfs, isCircle), *morning_oct)
+	storeCSV(toCSV(dates, outfs, isCircle, *year), *morning_oct)
 	fmt.Println("done morning oct")
 
 	// choose afternoon patrol
@@ -206,6 +207,6 @@ func main() {
 	infs = filterDone(fs, done)
 	fmt.Println(infs)
 	outfs = append(outfs, infs...)
-	storeCSV(toCSV(dates, outfs, isCircle), *afternoon)
+	storeCSV(toCSV(dates, outfs, isCircle, *year), *afternoon)
 	fmt.Println("done afternoon")
 }
