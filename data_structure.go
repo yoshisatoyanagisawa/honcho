@@ -25,5 +25,5 @@ type Family struct {
 	Region     string   `json:"region"`
 	History    *History `json:"history"`
 	// True if the patrol duty has finished.
-	Finished   bool     `json:"finished"`
+	Finished bool `json:"finished"`
 }

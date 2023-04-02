@@ -61,26 +61,26 @@ func mergeHistory(h1, h2 *History) *History {
 }
 
 func loadFinished(finished string) (map[string]bool, error) {
-        rows, err := loadCSV(finished)
-        if err != nil {
-                return nil, err
-        }
+	rows, err := loadCSV(finished)
+	if err != nil {
+		return nil, err
+	}
 
-        m := make(map[string]bool)
-        for _, v := range rows[2:] {
-                //    0,      1,    2,     3,     4
-                // date, circle, name, phone, grade
-                m[v[3]] = true
-        }
-        return m, nil
+	m := make(map[string]bool)
+	for _, v := range rows[2:] {
+		//    0,      1,    2,     3,     4
+		// date, circle, name, phone, grade
+		m[v[3]] = true
+	}
+	return m, nil
 }
 
 func main() {
 	var (
-		roster  = flag.String("roster", "input.csv", "the latest roster")
-		history = flag.String("history", "history.csv", "history file")
+		roster   = flag.String("roster", "input.csv", "the latest roster")
+		history  = flag.String("history", "history.csv", "history file")
 		finished = flag.String("finished", "finished.csv", "a file that has an April morning patrol duties")
-		output  = flag.String("output", "output.json", "output file")
+		output   = flag.String("output", "output.json", "output file")
 	)
 	flag.Parse()
 	rows, err := loadCSV(*roster)
@@ -148,9 +148,9 @@ func main() {
 						Class:     atoi(v[3]),
 					},
 				},
-				Phone:   phone,
-				Region:  v[7],
-				History: h,
+				Phone:    phone,
+				Region:   v[7],
+				History:  h,
 				Finished: finished,
 			}
 		}
