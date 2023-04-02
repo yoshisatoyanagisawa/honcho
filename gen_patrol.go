@@ -29,7 +29,19 @@ func swapRow(rs [][]string, i, j int) {
 	rs[i][0], rs[j][0] = rs[j][0], rs[i][0]
 }
 
-func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool) [][]string {
+func isOnDuty(h *History, year string) bool {
+	if h == nil {
+		return false
+	}
+	for _, y := range strings.Split(h.Year, ",") {
+		if y == year {
+			return true
+		}
+	}
+	return false
+}
+
+func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool, year string) [][]string {
 	var rs [][]string
 	var circleIdx []int
 	var roleIdx []int
@@ -49,13 +61,13 @@ func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool) [][]string 
 			dateIdx++
 			circle = "〇"
 			circleIdx = append(circleIdx, i)
-			if v.History != nil && v.History.Year == "R4" {
+			if isOnDuty(v.History, year) {
 				roleIdx = append(roleIdx, i)
 			}
 		}
 		role := ""
-		if v.History != nil && v.History.Year == "R4" {
-			role = "R4"
+		if isOnDuty(v.History, year) {
+			role = year
 		}
 		rs = append(rs, []string{
 			// date, circle, name, phone, grade
