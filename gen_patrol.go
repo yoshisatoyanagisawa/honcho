@@ -10,25 +10,10 @@ import (
 
 const morningPatrolDays = 6
 
-func loadFinished(finished string) map[string]bool {
-	rows, err := loadCSV(finished)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	m := make(map[string]bool)
-	for _, v := range rows[2:] {
-		//    0,      1,    2,     3,     4
-		// date, circle, name, phone, grade
-		m[v[3]] = true
-	}
-	return m
-}
-
-func filterDone(fs []Family, phone map[string]bool, done_id map[string]bool) []Family {
+func filterDone(fs []Family, done_id map[string]bool) []Family {
 	var newfs []Family
 	for _, v := range fs {
-		if phone[v.Phone] {
+		if v.Finished {
 			continue
 		}
 		if done_id[v.ID] {
@@ -136,21 +121,9 @@ func nextWeek(t time.Time) time.Time {
 	return t
 }
 
-func verifyPhoneExists(fs []Family, phone map[string]bool) {
-	pcnt := 0
-	for _, f := range fs {
-		if phone[f.Phone] {
-			fmt.Println(f)
-			pcnt++
-		}
-	}
-	fmt.Println("#Apr patrol", pcnt)
-}
-
 func main() {
 	var (
 		input           = flag.String("input", "input.json", "input file in JSON")
-		finished        = flag.String("finished", "finished.csv", "A file that has poeple who has already finished the role")
 		morning_oct     = flag.String("morning", "morning.csv", "A file that has people for a morning patrol role in Oct")
 		afternoon       = flag.String("afternoon", "afternoon.csv", "A file that has people for an afternoon patrol role")
 		start_morning   = flag.String("start-morning", "2022-10-03", "Start date of the morning patrol")
@@ -163,13 +136,10 @@ func main() {
 	}
 
 	sortFamilyWithGrade(fs, false)
-	pm := loadFinished(*finished)
-	fmt.Println("#finished:", len(pm))
-	verifyPhoneExists(fs, pm)
 	done := make(map[string]bool) // ID -> bool (true if done)
 
 	// choose morning patrol in Oct
-	infs := filterDone(fs, pm, done)
+	infs := filterDone(fs, done)
 	outfs := []Family{}
 	isCircle := make(map[string]bool)
 	dates := []time.Time{}
@@ -194,7 +164,7 @@ func main() {
 	fmt.Println("done morning oct")
 
 	// choose afternoon patrol
-	infs = filterDone(fs, pm, done)
+	infs = filterDone(fs, done)
 	outfs = []Family{}
 	isCircle = make(map[string]bool)
 	dates = []time.Time{}
@@ -221,7 +191,7 @@ func main() {
 		outfs = append(outfs, buddy)
 		updateDone(done, buddy.ID)
 	}
-	infs = filterDone(fs, pm, done)
+	infs = filterDone(fs, done)
 	fmt.Println(infs)
 	outfs = append(outfs, infs...)
 	storeCSV(toCSV(dates, outfs, isCircle), *afternoon)

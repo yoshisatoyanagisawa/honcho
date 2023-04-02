@@ -60,10 +60,26 @@ func mergeHistory(h1, h2 *History) *History {
 	return h
 }
 
+func loadFinished(finished string) (map[string]bool, error) {
+        rows, err := loadCSV(finished)
+        if err != nil {
+                return nil, err
+        }
+
+        m := make(map[string]bool)
+        for _, v := range rows[2:] {
+                //    0,      1,    2,     3,     4
+                // date, circle, name, phone, grade
+                m[v[3]] = true
+        }
+        return m, nil
+}
+
 func main() {
 	var (
 		roster  = flag.String("roster", "input.csv", "the latest roster")
 		history = flag.String("history", "history.csv", "history file")
+		finished = flag.String("finished", "finished.csv", "a file that has an April morning patrol duties")
 		output  = flag.String("output", "output.json", "output file")
 	)
 	flag.Parse()
@@ -77,13 +93,20 @@ func main() {
 		log.Fatal(err)
 	}
 
+	pm, err := loadFinished(*finished)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := make(map[string]Family)
+	pcnt := 0
 	for _, v := range rows[1:] {
 		//     0,  1,     2,     3,           4,          5,
 		// #kids, ID, grade, class, family name, first name,
 		//    6,      7,     8,    9,   10
 		// kana, region, phone, year, role
 		ID := v[1]
+		phone := v[8]
 
 		var h *History
 		if vv, ok := hm[ID]; ok {
@@ -95,7 +118,7 @@ func main() {
 					ID:    ID,
 					Year:  v[9],
 					Role:  v[10],
-					Phone: v[8],
+					Phone: phone,
 				})
 		}
 
@@ -108,6 +131,12 @@ func main() {
 			})
 			fs[ID] = val
 		} else {
+			finished := false
+			if pm[phone] {
+				finished = true
+				fmt.Println("Apr patrol ID:", ID)
+				pcnt++
+			}
 			fs[ID] = Family{
 				ID:         ID,
 				FamilyName: v[4],
@@ -119,12 +148,14 @@ func main() {
 						Class:     atoi(v[3]),
 					},
 				},
-				Phone:   v[8],
+				Phone:   phone,
 				Region:  v[7],
 				History: h,
+				Finished: finished,
 			}
 		}
 	}
+	fmt.Println("#Apr patrol", pcnt)
 	var fsDump []Family
 	for _, v := range fs {
 		fsDump = append(fsDump, v)

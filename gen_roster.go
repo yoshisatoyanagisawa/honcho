@@ -1,6 +1,6 @@
 /*
- * This is a program to generate a list of addresses used for labels.
- * The generated CSV file will be used with a label maker software.
+ * This is a program to generate a roster that represents history of each
+ * kid to be used for creating a schedule next year.
  */
 package main
 

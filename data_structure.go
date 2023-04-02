@@ -24,4 +24,6 @@ type Family struct {
 	Phone      string   `json:"phone"`
 	Region     string   `json:"region"`
 	History    *History `json:"history"`
+	// True if the patrol duty has finished.
+	Finished   bool     `json:"finished"`
 }
