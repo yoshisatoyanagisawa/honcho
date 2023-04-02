@@ -19,6 +19,7 @@ NEW_ROSTER="roster.csv"
 
 (cd $DIRNAME; make)
 
+rm -f "$DATAFILE" "$ADDRESS" "$CANDIDATES" "$MORNING" "$AFTERNOON" "$NEW_ROSTER"
 "$DIRNAME/to_json" --roster="$ROSTER" --history="$HISTORY" --output="$DATAFILE" --finished="$FINISHED"
 "$DIRNAME/gen_address" --input="$DATAFILE" --output="$ADDRESS"
 "$DIRNAME/gen_duty" --input="$DATAFILE" --candidates="$CANDIDATES" --done="$DONE"

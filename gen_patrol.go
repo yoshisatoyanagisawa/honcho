@@ -41,7 +41,7 @@ func isOnDuty(h *History, year string) bool {
 	return false
 }
 
-func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool, year string) [][]string {
+func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool) [][]string {
 	var rs [][]string
 	var circleIdx []int
 	var roleIdx []int
@@ -61,13 +61,13 @@ func toCSV(dates []time.Time, fs []Family, isCircle map[string]bool, year string
 			dateIdx++
 			circle = "〇"
 			circleIdx = append(circleIdx, i)
-			if isOnDuty(v.History, year) {
+			if isOnDuty(v.History, "R4") {
 				roleIdx = append(roleIdx, i)
 			}
 		}
 		role := ""
-		if isOnDuty(v.History, year) {
-			role = year
+		if isOnDuty(v.History, "R4") {
+			role = "R4"
 		}
 		rs = append(rs, []string{
 			// date, circle, name, phone, grade
